@@ -1,0 +1,23 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: bulkprocessor
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc.batch_size: 20
+        order_inserts: true
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/testdb?reWriteBatchedInserts=true"
+    username: root
+    password: root
+  kafka:
+    bootstrap-servers: localhost:9093
+logging:
+  level:
+    root: ERROR
+    com.egen: TRACE

@@ -1,0 +1,68 @@
+services:
+
+  postgresqldb:
+    image: postgres
+    volumes:
+      - ${PWD}/postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=testdb
+
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    tmpfs: "/datalog"
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+      - '9093:9093'
+    depends_on:
+      - "zookeeper"
+    volumes:
+      - ${PWD}/kafka_data:/var
+    environment:
+      - KAFKA_BROKER_ID=1
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+
+  webapi:
+    image: openjdk:8-jdk-alpine
+    volumes:
+      - ${PWD}/Titanic_API/titanic/target:/webapi
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgresqldb:
+        condition: service_started
+      kafka:
+        condition: service_started
+      zookeeper:
+        condition: service_started
+    command: java -jar webapi/titanic-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/testdb --spring.kafka.bootstrap-servers=host.docker.internal:9093
+
+  bulkapi:
+    image: openjdk:8-jdk-alpine
+    volumes:
+      - ${PWD}/bulk/target:/bulkapi
+    ports:
+      - "8090:8090"
+    depends_on:
+      postgresqldb:
+        condition: service_started
+      kafka:
+        condition: service_started
+      zookeeper:
+        condition: service_started
+    command: java -jar bulkapi/bulk-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:postgresql://host.docker.internal:5432/testdb --spring.kafka.bootstrap-servers=host.docker.internal:9093

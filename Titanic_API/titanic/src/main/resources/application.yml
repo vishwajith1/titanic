@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: titanic
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/testdb"
+    username: root
+    password: root
+
+  kafka:
+    bootstrap-servers: localhost:9093
+logging:
+  level:
+    root: ERROR
+    com.egen: TRACE

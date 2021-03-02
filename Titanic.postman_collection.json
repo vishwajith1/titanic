@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "7ecb415d-3e22-46f6-9f19-b15a726c4077",
+		"name": "Titanic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CancelOrder",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/order/cancel/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"cancel",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/order/modify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseOrderId\" : 1,\n    \"subOrdersMap\" : {\n        \"1\" : {\n            \"quantity\" : 3,\n            \"shippingAddressId\" : 2\n        },\n        \"2\" : {\n            \"quantity\" : 3,\n            \"shippingAddressId\" : 2\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/order/modify",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"modify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/order/create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\" : 2,\n    \"items\" : {\n        \"1\" : {\n            \"quantity\" : 1,\n            \"shippingAddressId\" : 2 \n        },\n        \"2\" : {\n            \"quantity\" : 1,\n            \"shippingAddressId\" : 2 \n        }\n    },\n    \"payments\" : [\n        {\n            \"payMode\" : \"CARD_ONLINE\",\n            \"amount\" : 431,\n            \"billingAddress\" : 2\n        },\n        {\n            \"payMode\" : \"NET_BANKING\",\n            \"amount\" : 69,\n            \"billingAddress\" : 1\n        }\n    ]\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/order/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrder",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/order/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BulkModify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseOrderId\" : 1,\n    \"subOrdersMap\" : {\n        \"1\" : {\n            \"quantity\" : 3,\n            \"shippingAddressId\" : 2\n        },\n        \"2\" : {\n            \"quantity\" : 3,\n            \"shippingAddressId\" : 2\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bulk/order/modify",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bulk",
+						"order",
+						"modify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BulkCreate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\" : 2,\n    \"items\" : {\n        \"1\" : {\n            \"quantity\" : 100,\n            \"shippingAddressId\" : 1 \n        },\n        \"2\" : {\n            \"quantity\" : 1,\n            \"shippingAddressId\" : 2 \n        }\n    },\n    \"payments\" : [\n        {\n            \"payMode\" : \"CARD_ONLINE\",\n            \"amount\" : 431,\n            \"billingAddress\" : 1\n        },\n        {\n            \"payMode\" : \"NET_BANKING\",\n            \"amount\" : 69,\n            \"billingAddress\" : 1\n        }\n    ]\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bulk/order/create",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bulk",
+						"order",
+						"create"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
